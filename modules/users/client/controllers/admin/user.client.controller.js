@@ -5,37 +5,16 @@
     .module('users.admin')
     .controller('UserController', UserController);
 
-  UserController.$inject = ['$scope', '$state', '$window', 'Authentication', 'userResolve', 'UsersService', 'Notification'];
+  UserController.$inject = ['$scope', '$state', '$window', 'Authentication', 'userResolve', 'Notification'];
 
-  function UserController($scope, $state, $window, Authentication, user, UsersService, Notification) {
+  function UserController($scope, $state, $window, Authentication, user, Notification) {
     var vm = this;
 
     vm.authentication = Authentication;
     vm.user = user;
     vm.remove = remove;
-    vm.create = create;
     vm.update = update;
     vm.isContextUserSelf = isContextUserSelf;
-
-    function create(isValid) {
-      if (!isValid) {
-        $scope.$broadcast('show-errors-check-validity', 'vm.userForm');
-
-        return false;
-      }
-
-      var user = vm.user;
-
-      UsersService.create(user, function () {
-        console.log('UsersController');
-        console.log('UsersController');
-        console.log('UsersController');
-        $state.go('admin.user');
-        Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i> User saved successfully!' });
-      }, function (errorResponse) {
-        Notification.error({ message: errorResponse.data.message, title: '<i class="glyphicon glyphicon-remove"></i> User update error!' });
-      });
-    }
 
     function remove(user) {
       if ($window.confirm('Are you sure you want to delete this user?')) {

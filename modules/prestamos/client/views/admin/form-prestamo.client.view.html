@@ -1,0 +1,50 @@
+<section>
+  <div class="page-header">
+    <h1>{{vm.prestamo._id ? 'Edit Prestamo' : 'New Prestamo'}}</h1>
+  </div>
+  <div class="pull-right">
+    <a ng-show="vm.prestamo._id" class="btn btn-primary" ng-click="vm.remove()">
+      <i class="fa fa-trash"></i>
+    </a>
+  </div>
+  <div class="col-md-12">
+    <form name="vm.form.prestamoForm" class="form-horizontal" ng-submit="vm.save(vm.form.prestamoForm.$valid)" novalidate>
+      <fieldset>
+
+        <div class="form-group" show-errors>
+          <div class="row">
+            <div class="col-md-6">
+              <label class="control-label" for="amount">Cantidad</label>
+              <input name="amount" type="number" ng-model="vm.prestamo.amount" id="amount" class="form-control" placeholder="amount" required autofocus>
+              <div ng-messages="vm.form.prestamoForm.amount.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Prestamo amount is required.</p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label class="control-label" for="interest">Interés</label>
+              <input type="text" name="interest" id="interest" class="form-control" ng-model="vm.prestamo.interest" placeholder="Interes">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-6">
+              <label class="control-label" for="address">Dirección</label>
+              <input name="address" data-ng-model="vm.prestamo.address" id="address" class="form-control" placeholder="Dirección"></input>
+            </div>
+            <div class="col-md-6">
+              <label class="control-label" for="plan">Fecha actual</label>
+              <input type="date" name="plan" id="plan" class="form-control">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <button type="submit" class="btn btn-default">{{vm.prestamo._id ? 'Update' : 'Create'}}</button>
+        </div>
+
+      </fieldset>
+    </form>
+  </div>
+</section>

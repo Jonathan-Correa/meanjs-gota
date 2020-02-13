@@ -20,10 +20,6 @@ exports.read = function (req, res) {
  */
 exports.create = function (req, res) {
 
-  console.log('req.body.username');
-  console.log(req.body.username);
-  console.log('req.body.username');
-
   var user = new User({
     username: req.body.username,
     firstName: req.body.firstName,
@@ -31,21 +27,16 @@ exports.create = function (req, res) {
     displayName: req.body.firstName + ' ' + req.body.lastName,
     provider: req.body.provider,
     email: req.body.email,
+    password: req.body.password,
     roles: req.body.roles
   });
 
   user.save(function (err) {
     if (err) {
-      console.log(err);
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
       });
     }
-
-    console.log('user');
-    console.log(user);
-    console.log('user');
-
     res.json(user);
   });
 };

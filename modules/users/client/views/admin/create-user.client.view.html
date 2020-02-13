@@ -4,7 +4,9 @@
     </div>
     <div class="col-md-12">
       <form name="vm.userForm" ng-submit="vm.create(vm.userForm.$valid)" novalidate>
+        
         <fieldset>
+
           <div class="form-group" show-errors>
             <label for="firstName">Nombre</label>
             <input type="text" id="firstName" name="firstName" class="form-control" ng-model="vm.user.firstName" placeholder="Nombre" required autofocus />
@@ -12,6 +14,7 @@
               <p class="help-block error-text" ng-message="required">El nombre es requerido</p>
             </div>
           </div>
+
           <div class="form-group" show-errors>
             <label for="lastName">Apellido</label>
             <input type="text" id="lastName" name="lastName" class="form-control" ng-model="vm.user.lastName" placeholder="Apellido" required />
@@ -19,6 +22,39 @@
               <p class="help-block error-text" ng-message="required">Last name is required.</p>
             </div>
           </div>
+
+          <div class="form-group" show-errors>
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" class="form-control" ng-model="vm.user.username" placeholder="Username" required />
+            <div ng-messages="vm.userForm.username.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Username is required.</p>
+            </div>
+          </div>
+
+          <div class="form-group" show-errors>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" class="form-control" ng-model="vm.user.email" placeholder="Email" required />
+            <div ng-messages="vm.userForm.email.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Email is required.</p>
+            </div>
+          </div>
+
+          <div class="form-group" show-errors>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" class="form-control" ng-model="vm.user.password" placeholder="Password" required />
+            <div ng-messages="vm.userForm.password.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Password is required.</p>
+            </div>
+          </div>
+
+          <div class="form-group" show-errors>
+            <label for="provider">Provider</label>
+            <input type="text" id="provider" name="provider" class="form-control" ng-model="vm.user.provider" placeholder="Provider" required />
+            <div ng-messages="vm.userForm.provider.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Provider is required.</p>
+            </div>
+          </div>
+
           <div class="form-group" show-errors>
             <label class="control-label" for="roles">Roles</label>
             <div class="controls">
@@ -28,11 +64,13 @@
               </div>
             </div>
           </div>
+
           <div class="form-group">
             <button type="submit" class="btn btn-success">
                 Enviar
             </button>
           </div>
+
         </fieldset>
       </form>
     </div>

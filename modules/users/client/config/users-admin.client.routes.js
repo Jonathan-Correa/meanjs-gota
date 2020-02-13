@@ -31,11 +31,8 @@
       .state('admin.user-create', {
         url: '/users/create',
         templateUrl: '/modules/users/client/views/admin/create-user.client.view.html',
-        controller: 'UserController',
+        controller: 'CreateUserController',
         controllerAs: 'vm',
-        resolve: {
-          userResolve: getUser
-        },
         data: {
           pageTitle: 'Crear usuario'
         }
@@ -56,7 +53,7 @@
     getUser.$inject = ['$stateParams', 'AdminService'];
 
     function getUser($stateParams, AdminService) {
-      return AdminService.query({
+      return AdminService.get({
         userId: $stateParams.userId
       }).$promise;
     }

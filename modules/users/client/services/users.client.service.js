@@ -69,10 +69,7 @@
       userSignin: function (credentials) {
         return this.signin(credentials).$promise;
       },
-      create: function (credentials) {
-        console.log('User created');
-        console.log('User created');
-        console.log('User created');
+      createUser: function (credentials) {
         return this.create(credentials).$promise;
       }
     });
