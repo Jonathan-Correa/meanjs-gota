@@ -6,7 +6,8 @@
 var path = require('path'),
   mongoose = require('mongoose'),
   Prestamo = mongoose.model('Prestamo'),
-  errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
+  errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
+  User = mongoose.model('User');
 
 /**
  * Create an Prestamo
@@ -142,3 +143,11 @@ exports.prestamoByID = function (req, res, next, id) {
     next();
   });
 };
+
+exports.getDebtors = function (req, res) {
+
+  var debtors = ["jonathan", 'alex', 'juan'];
+
+  console.log(debtors);
+  res.send(debtors);
+}

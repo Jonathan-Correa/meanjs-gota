@@ -13,18 +13,17 @@ var mongoose = require('mongoose'),
  * Prestamo Schema
  */
 var PrestamoSchema = new Schema({
-  title: {
+  amount: {
     type: String,
     default: '',
-    trim: true,
-    required: 'Title cannot be blank'
+    required: 'Please fill in amount',
+    trim: false
   },
-  content: {
+  interest: {
     type: String,
-    default: '',
-    trim: true
+    default: '0%',
   },
-  user: {
+  debtor: {
     type: Schema.ObjectId,
     ref: 'User'
   },

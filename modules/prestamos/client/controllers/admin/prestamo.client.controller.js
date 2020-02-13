@@ -25,6 +25,8 @@
         });
       }
     }
+    
+    vm.debtors = ["jonathan", 'alex', 'juan'];
 
     // Save Prestamo
     function save(isValid) {

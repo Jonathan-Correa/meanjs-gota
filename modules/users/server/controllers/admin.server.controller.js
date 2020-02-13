@@ -117,3 +117,14 @@ exports.userByID = function (req, res, next, id) {
     next();
   });
 };
+
+
+/* exports.getDebtors = function (req, res) {
+
+  console.log(req.body);
+
+  var debtors = User.find({roles: 'debtor'});
+
+  console.log(debtors);
+  res.send(debtors);
+}; */

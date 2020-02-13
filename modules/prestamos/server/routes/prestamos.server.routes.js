@@ -20,4 +20,8 @@ module.exports = function(app) {
 
   // Finish by binding the Prestamo middleware
   app.param('prestamoId', prestamos.prestamoByID);
+
+  // Get all the debtors
+  app.route('/api/prestamos/getDebtors')
+    .get(prestamos.getDebtors);
 };
