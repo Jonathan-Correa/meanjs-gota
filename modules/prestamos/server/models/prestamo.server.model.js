@@ -21,7 +21,7 @@ var PrestamoSchema = new Schema({
   },
   interest: {
     type: String,
-    default: '0%',
+    default: '0%'
   },
   debtor: {
     type: Schema.ObjectId,
@@ -38,10 +38,17 @@ var PrestamoSchema = new Schema({
   modified: {
     type: Date,
     default: Date.now
+  },
+  current_date: {
+    type: Date,
+    default: Date.now
+  },
+  expire_date: {
+    type: Date
   }
 });
 
-//methods
+// Methods
 PrestamoSchema.methods.processFilter = function (params) {
 
   if (!params || typeof params == 'undefined') {
@@ -62,6 +69,7 @@ PrestamoSchema.methods.processFilter = function (params) {
 
   var moment = require('moment');
 
+  // eslint-disable-next-line guard-for-in
   for (var field in PrestamoSchema.paths) {
 
     if (params[field] === '' || params[field] === null) {
@@ -69,12 +77,12 @@ PrestamoSchema.methods.processFilter = function (params) {
       continue;
     }
 
-    if (field == 'user' && params['user._id']) {
+    if (field === 'user' && params['user._id']) {
       params['user'] = mongoose.Types.ObjectId(params['user._id']);
       delete params['user._id'];
     }
     
-    if (field == 'created' && params['created']) {
+    if (field === 'created' && params['created']) {
       var date1 = moment(params[field]['begin'],'YYYY-MM-DD H:mm:ss');
       var date2 = moment(params[field]['end'],'YYYY-MM-DD H:mm:ss');
       params[field]={$gte:date1.toDate(),$lte:date2.toDate()}
