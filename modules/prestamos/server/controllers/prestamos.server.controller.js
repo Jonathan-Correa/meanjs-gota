@@ -47,8 +47,8 @@ exports.read = function (req, res) {
 exports.update = function (req, res) {
   var prestamo = req.prestamo;
 
-  prestamo.title = req.body.title;
-  prestamo.content = req.body.content;
+  prestamo.amount = req.body.amount;
+  prestamo.debtor = req.body.debtor;
 
   prestamo.save(function (err) {
     if (err) {
@@ -81,7 +81,8 @@ exports.delete = function (req, res) {
 /**
  * List of Prestamos
  */
-exports.list = function (req, res) {
+exports.list = async function (req, res) {
+
   var count = req.query.pageSize || 100;
   var page = req.query.pageNumber || 1;
   var populate = req.query.populate || {
@@ -144,10 +145,22 @@ exports.prestamoByID = function (req, res, next, id) {
   });
 };
 
-exports.getDebtors = function (req, res) {
+/**
+ * Get all the user with the role debtor
+ */
+exports.getDebtors = async function (req, res) {
 
-  var debtors = ["jonathan", 'alex', 'juan'];
+  var result = [];
 
-  console.log(debtors);
-  res.send(debtors);
+  await User.find({roles: ['debtor']});
+
+  res.json(result);
+
+  
+
+  if(error.length > 0){
+    res.json(error);
+  }
+
+  
 }

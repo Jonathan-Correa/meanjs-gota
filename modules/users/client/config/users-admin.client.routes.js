@@ -1,4 +1,4 @@
-(function () {
+z(function () {
   'use strict';
 
   // Setting up route

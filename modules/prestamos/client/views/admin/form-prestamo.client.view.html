@@ -14,7 +14,7 @@
         <div class="form-group" show-errors>
               <label class="control-label" for="debtor">Deudor</label>
               <select name="debtor" ng-model="vm.prestamo.debtor" id="debtor" class="form-control" placeholder="Deudor" required autofocus>
-                <option ng-repeat='item in vm.debtors'>{{item}}</option>
+                <option ng-repeat='item in vm.debtors'>{{item.displayName}}</option>
               </select>
               <div ng-messages="vm.form.prestamoForm.debtor.$error" role="alert">
                 <p class="help-block error-text" ng-message="required">Prestamo debtor is required.</p>

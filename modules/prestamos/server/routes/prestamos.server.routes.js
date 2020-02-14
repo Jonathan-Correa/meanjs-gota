@@ -12,6 +12,10 @@ module.exports = function(app) {
     .get(prestamos.list)
     .post(prestamos.create);
 
+  // Get all the debtors
+  app.route('/api/prestamos/getDebtors').all(prestamosPolicy.isAllowed)
+    .get(prestamos.getDebtors);
+
   // Single Prestamo routes
   app.route('/api/prestamos/:prestamoId').all(prestamosPolicy.isAllowed)
     .get(prestamos.read)
@@ -21,7 +25,4 @@ module.exports = function(app) {
   // Finish by binding the Prestamo middleware
   app.param('prestamoId', prestamos.prestamoByID);
 
-  // Get all the debtors
-  app.route('/api/prestamos/getDebtors')
-    .get(prestamos.getDebtors);
 };

@@ -27,6 +27,10 @@ var PrestamoSchema = new Schema({
     type: Schema.ObjectId,
     ref: 'User'
   },
+  user: {
+    type: Schema.ObjectId,
+    ref: 'User'
+  },
   created: {
     type: Date,
     default: Date.now

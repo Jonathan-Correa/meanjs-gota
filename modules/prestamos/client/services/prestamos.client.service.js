@@ -9,22 +9,30 @@
   PrestamosService.$inject = ['$resource', '$log'];
 
   function PrestamosService($resource, $log) {
-    var Article = $resource('/api/prestamos/:prestamoId', {
-      prestamoId: '@_id'
-    }, {
-      update: {
-        method: 'PUT'
+    var Prestamos = $resource(
+      '/api/prestamos/:prestamoId',
+      {
+        prestamoId: '@_id'
+      }, {
+        update: {
+          method: 'PUT'
+        }
       }
-    });
+    );
 
-    angular.extend(Article.prototype, {
+    angular.extend(Prestamos, {
       createOrUpdate: function () {
         var prestamo = this;
         return createOrUpdate(prestamo);
+      },
+      getDebtors: function(params){
+        var module = $resource('/api/prestamos/getDebtors');
+
+        return module.query().$promise;
       }
     });
 
-    return Article;
+    return Prestamos;
 
     function createOrUpdate(prestamo) {
       if (prestamo._id) {

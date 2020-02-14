@@ -9,42 +9,46 @@
   UsersService.$inject = ['$resource'];
 
   function UsersService($resource) {
-    var Users = $resource('/api/users', {}, {
-      update: {
-        method: 'PUT'
-      },
-      create: {
-        method: 'POST',
-        url: '/api/users/create'
-      },
-      updatePassword: {
-        method: 'POST',
-        url: '/api/users/password'
-      },
-      deleteProvider: {
-        method: 'DELETE',
-        url: '/api/users/accounts',
-        params: {
-          provider: '@provider'
+    var Users = $resource(
+      '/api/users',
+      {},
+      {
+        update: {
+          method: 'PUT'
+        },
+        create: {
+          method: 'POST',
+          url: '/api/users/create'
+        },
+        updatePassword: {
+          method: 'POST',
+          url: '/api/users/password'
+        },
+        deleteProvider: {
+          method: 'DELETE',
+          url: '/api/users/accounts',
+          params: {
+            provider: '@provider'
+          }
+        },
+        sendPasswordResetToken: {
+          method: 'POST',
+          url: '/api/auth/forgot'
+        },
+        resetPasswordWithToken: {
+          method: 'POST',
+          url: '/api/auth/reset/:token'
+        },
+        signup: {
+          method: 'POST',
+          url: '/api/auth/signup'
+        },
+        signin: {
+          method: 'POST',
+          url: '/api/auth/signin'
         }
-      },
-      sendPasswordResetToken: {
-        method: 'POST',
-        url: '/api/auth/forgot'
-      },
-      resetPasswordWithToken: {
-        method: 'POST',
-        url: '/api/auth/reset/:token'
-      },
-      signup: {
-        method: 'POST',
-        url: '/api/auth/signup'
-      },
-      signin: {
-        method: 'POST',
-        url: '/api/auth/signin'
       }
-    });
+    );
 
     angular.extend(Users, {
       changePassword: function (passwordDetails) {

@@ -5,9 +5,9 @@
     .module('prestamos.admin')
     .controller('PrestamosAdminController', PrestamosAdminController);
 
-  PrestamosAdminController.$inject = ['$scope', '$state', '$window', 'prestamoResolve', 'Authentication', 'Notification'];
+  PrestamosAdminController.$inject = ['$scope', '$resource','$state', '$window', 'prestamoResolve', 'PrestamosService', 'Authentication', 'Notification'];
 
-  function PrestamosAdminController($scope, $state, $window, prestamo, Authentication, Notification) {
+  function PrestamosAdminController($scope, $resource, $state, $window, prestamo, PrestamosService, Authentication, Notification) {
     var vm = this;
 
     vm.prestamo = prestamo;
@@ -26,7 +26,9 @@
       }
     }
     
-    vm.debtors = ["jonathan", 'alex', 'juan'];
+    PrestamosService.getDebtors({fields: 'displayName'})
+      .then(res => vm.debtors = res)
+      .catch(err => console.error(err));
 
     // Save Prestamo
     function save(isValid) {
