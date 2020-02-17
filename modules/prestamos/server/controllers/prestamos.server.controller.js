@@ -81,7 +81,7 @@ exports.delete = function (req, res) {
 /**
  * List of Prestamos
  */
-exports.list = async function (req, res) {
+exports.list = function (req, res) {
 
   var count = req.query.pageSize || 100;
   var page = req.query.pageNumber || 1;
@@ -94,7 +94,7 @@ exports.list = async function (req, res) {
   var processFilter = new Prestamo().processFilter(filter);
   var processPopulate = new Prestamo().processPopulate(populate);
 
-  if (req.user.roles.indexOf("admin") == -1) {
+  if (req.user.roles.indexOf('admin') === -1) {
     processFilter.user = req.user._id;
   }
 
@@ -118,7 +118,7 @@ exports.list = async function (req, res) {
     } else {
       res.json(prestamos);
     }
-  }); 
+  });
 };
 
 /**
@@ -144,23 +144,3 @@ exports.prestamoByID = function (req, res, next, id) {
     next();
   });
 };
-
-/**
- * Get all the user with the role debtor
- */
-exports.getDebtors = async function (req, res) {
-
-  var result = [];
-
-  await User.find({roles: ['debtor']});
-
-  res.json(result);
-
-  
-
-  if(error.length > 0){
-    res.json(error);
-  }
-
-  
-}

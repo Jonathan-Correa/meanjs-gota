@@ -119,12 +119,14 @@ exports.userByID = function (req, res, next, id) {
 };
 
 
-/* exports.getDebtors = function (req, res) {
+exports.getDebtors = function (req, res) {
 
-  console.log(req.body);
+  User.find({ roles: ['debtor'] }, function (error, users) {
 
-  var debtors = User.find({roles: 'debtor'});
+    if (error) {
+      return res.status(400).json(error);
+    }
 
-  console.log(debtors);
-  res.send(debtors);
-}; */
+    res.json(users);
+  });
+};

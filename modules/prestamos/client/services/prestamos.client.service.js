@@ -25,8 +25,8 @@
         var prestamo = this;
         return createOrUpdate(prestamo);
       },
-      getDebtors: function(params){
-        var module = $resource('/api/prestamos/getDebtors');
+      getDebtors: function (params) {
+        var module = $resource('/api/users/getDebtors');
 
         return module.query().$promise;
       }

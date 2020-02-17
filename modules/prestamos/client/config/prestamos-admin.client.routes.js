@@ -32,7 +32,8 @@
           roles: ['admin']
         },
         resolve: {
-          prestamoResolve: newPrestamo        }
+          prestamoResolve: newPrestamo
+        }
       })
       .state('admin.prestamos.edit', {
         url: '/:prestamoId/edit',

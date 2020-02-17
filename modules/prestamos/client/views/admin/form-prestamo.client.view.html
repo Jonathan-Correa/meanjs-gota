@@ -13,7 +13,7 @@
 
         <div class="form-group" show-errors>
               <label class="control-label" for="debtor">Deudor</label>
-              <select name="debtor" ng-model="vm.prestamo.debtor" id="debtor" class="form-control" placeholder="Deudor" required autofocus>
+              <select name="debtor" type="text" ng-model="vm.prestamo.debtor" id="debtor" class="form-control" placeholder="Deudor" required autofocus>
                 <option ng-repeat='item in vm.debtors'>{{item.displayName}}</option>
               </select>
               <div ng-messages="vm.form.prestamoForm.debtor.$error" role="alert">
@@ -25,14 +25,14 @@
           <div class="row">
             <div class="col-md-6">
               <label class="control-label" for="amount">Cantidad</label>
-              <input name="amount" type="number" ng-model="vm.prestamo.amount" id="amount" class="form-control" placeholder="amount" required autofocus>
+              <input name="amount" type="number" ng-model="vm.prestamo.amount" id="amount" class="form-control" required>
               <div ng-messages="vm.form.prestamoForm.amount.$error" role="alert">
                 <p class="help-block error-text" ng-message="required">Prestamo amount is required.</p>
               </div>
             </div>
             <div class="col-md-6">
               <label class="control-label" for="interest">Interés</label>
-              <input type="text" name="interest" id="interest" ng-bind="vm.prestamo.interest" class="form-control" ng-model="vm.prestamo.interest" placeholder="Interes">
+              <input type="text" name="interest" id="interest" class="form-control" ng-model="vm.prestamo.interest" placeholder="Interes">
             </div>
           </div>
         </div>
@@ -41,11 +41,11 @@
           <div class="row">
             <div class="col-md-6">
               <label class="control-label" for="address">Dirección</label>
-              <input name="address" data-ng-model="vm.prestamo.address" id="address" class="form-control" placeholder="Dirección"></input>
+              <input name="address" ng-model="vm.prestamo.address" id="address" class="form-control" placeholder="Dirección"></input>
             </div>
             <div class="col-md-6">
-              <label class="control-label" for="plan">Fecha actual</label>
-              <input type="date" name="plan" id="plan" class="form-control">
+              <label class="control-label" for="current_date">Fecha actual</label>
+              <input type="date" name="current_date" id="current_date" class="form-control" ng-model="vm.prestamo.current_date">
             </div>
           </div>
         </div>

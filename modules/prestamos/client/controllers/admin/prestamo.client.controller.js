@@ -5,11 +5,10 @@
     .module('prestamos.admin')
     .controller('PrestamosAdminController', PrestamosAdminController);
 
-  PrestamosAdminController.$inject = ['$scope', '$resource','$state', '$window', 'prestamoResolve', 'PrestamosService', 'Authentication', 'Notification'];
+  PrestamosAdminController.$inject = ['$scope', '$state', '$window', 'prestamoResolve', 'PrestamosService', 'Authentication', 'Notification'];
 
-  function PrestamosAdminController($scope, $resource, $state, $window, prestamo, PrestamosService, Authentication, Notification) {
+  function PrestamosAdminController($scope, $state, $window, prestamo, PrestamosService, Authentication, Notification) {
     var vm = this;
-
     vm.prestamo = prestamo;
     vm.authentication = Authentication;
     vm.form = {};
@@ -25,22 +24,34 @@
         });
       }
     }
-    
-    PrestamosService.getDebtors({fields: 'displayName'})
-      .then(res => vm.debtors = res)
+
+    PrestamosService.getDebtors()
+      .then(res => {
+        vm.debtors = res;
+      })
       .catch(err => console.error(err));
 
     // Save Prestamo
     function save(isValid) {
+
+      console.log("Entrando en save");
+      console.log("Entrando en save");
+
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'vm.form.prestamoForm');
         return false;
       }
 
+      console.log('is valid');
+      console.log('is valid');
+
       // Create a new prestamo, or update the current instance
-      vm.prestamo.createOrUpdate()
+      prestamo.createOrUpdate()
         .then(successCallback)
         .catch(errorCallback);
+
+      console.log('create or update');
+      console.log('create or update');
 
       function successCallback(res) {
         $state.go('admin.prestamos.list'); // should we send the User to the list or the updated Prestamo's view?

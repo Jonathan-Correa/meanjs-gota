@@ -14,13 +14,16 @@ module.exports = function (app) {
   app.route('/api/users')
     .get(adminPolicy.isAllowed, admin.list);
 
+  app.route('/api/users/getDebtors')
+    .get(adminPolicy.isAllowed, admin.getDebtors);
+
   // Single user routes
   app.route('/api/users/:userId')
     .get(adminPolicy.isAllowed, admin.read)
     .put(adminPolicy.isAllowed, admin.update)
     .delete(adminPolicy.isAllowed, admin.delete);
 
-  //Create user
+  // Create user
   app.route('/api/users/create')
     .post(admin.create);
 
