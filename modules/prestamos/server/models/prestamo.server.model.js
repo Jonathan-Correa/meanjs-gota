@@ -13,21 +13,43 @@ var mongoose = require('mongoose'),
  * Prestamo Schema
  */
 var PrestamoSchema = new Schema({
-  amount: {
-    type: String,
-    default: '',
-    required: 'Please fill in amount',
-    trim: false
-  },
-  interest: {
-    type: String,
-    default: '0%'
-  },
   debtor: {
     type: Schema.ObjectId,
     ref: 'User'
   },
-  user: {
+  amount: {
+    type: Number,
+    required: 'please fill in amount'
+  },
+  plan_id: {
+    type: Schema.ObjectId,
+    ref: 'Plan'
+  },
+  number_of_fees: {
+    type: Number,
+    required: 'Please fill in number of fees'
+  },
+  total_to_pay: {
+    type: Number
+  },
+  init_date: {
+    type: Date,
+    default: Date.now,
+    required: 'Please fill in init date'
+  },
+  final_date: {
+    type: Date
+    //required: 'Please fill in final date'
+  },
+  value_per_fee: {
+    type: Number,
+    required: true
+  },
+  address: {
+    type: String,
+    required: 'Please fill in address'
+  },
+  createdBy: {
     type: Schema.ObjectId,
     ref: 'User'
   },
@@ -42,17 +64,23 @@ var PrestamoSchema = new Schema({
   modified: {
     type: Date,
     default: Date.now
-  },
-  current_date: {
-    type: Date,
-    default: Date.now
-  },
-  expire_date: {
-    type: Date
   }
 });
 
-// Methods
+// methods
+PrestamoSchema.methods.processValue = function (prestamo, plan){
+
+  var agregated_value = (prestamo.amount * plan.interest) / 100;
+
+  prestamo.total_to_pay = prestamo.amount + agregated_value;
+
+
+
+  prestamo.value_per_fee = prestamo.total_to_pay / prestamo.number_of_fees;
+}
+
+
+
 PrestamoSchema.methods.processFilter = function (params) {
 
   if (!params || typeof params == 'undefined') {
@@ -67,13 +95,14 @@ PrestamoSchema.methods.processFilter = function (params) {
     return {};
   }
 
-  if ( Object.keys(params).length == 0) {
+  if (Object.keys(params).length === 0) {
     return {};
   }
 
   var moment = require('moment');
+  var date1;
+  var date2;
 
-  // eslint-disable-next-line guard-for-in
   for (var field in PrestamoSchema.paths) {
 
     if (params[field] === '' || params[field] === null) {
@@ -81,26 +110,34 @@ PrestamoSchema.methods.processFilter = function (params) {
       continue;
     }
 
-    if (field === 'user' && params['user._id']) {
-      params['user'] = mongoose.Types.ObjectId(params['user._id']);
-      delete params['user._id'];
-    }
     
-    if (field === 'created' && params['created']) {
-      var date1 = moment(params[field]['begin'],'YYYY-MM-DD H:mm:ss');
-      var date2 = moment(params[field]['end'],'YYYY-MM-DD H:mm:ss');
-      params[field]={$gte:date1.toDate(),$lte:date2.toDate()}
+    
+    if (field === 'createdBy' && params['createdBy._id']) {
+      params.createdBy = mongoose.Types.ObjectId(params['createdBy._id']);
+      delete params['createdBy._id'];
     }
 
-    if (field == 'modifiedby' && params['modifiedby._id']) {
-      params['modifiedby'] = mongoose.Types.ObjectId(params['modifiedby._id']);
+    if (field === 'created' && params.created) {
+      date1 = moment(params[field].begin, 'YYYY-MM-DD H:mm:ss');
+      date2 = moment(params[field].end, 'YYYY-MM-DD H:mm:ss');
+      params[field] = {
+        $gte: date1.toDate(),
+        $lte: date2.toDate()
+      };
+    }
+
+    if (field === 'modifiedby' && params['modifiedby._id']) {
+      params.modifiedby = mongoose.Types.ObjectId(params['modifiedby._id']);
       delete params['modifiedby._id'];
     }
 
-    if (field == 'modified' && params['modified']) {
-      var date1 = moment(params[field]['begin'],'YYYY-MM-DD H:mm:ss');
-      var date2 = moment(params[field]['end'],'YYYY-MM-DD H:mm:ss');
-      params[field]={$gte:date1.toDate(),$lte:date2.toDate()}
+    if (field === 'modified' && params.modified) {
+      date1 = moment(params[field].begin, 'YYYY-MM-DD H:mm:ss');
+      date2 = moment(params[field].end, 'YYYY-MM-DD H:mm:ss');
+      params[field] = {
+        $gte: date1.toDate(),
+        $lte: date2.toDate()
+      };
     }
 
     if (!params[field]) {
@@ -117,7 +154,65 @@ PrestamoSchema.methods.processFilter = function (params) {
 PrestamoSchema.methods.processPopulate = function (params) {
 
   if (!params || typeof params == 'undefined') {
-    return { path: '', field: '' };
+    return {
+      path: '',
+      select: ''
+    };
+  }
+
+  var typeParams = 'array';
+
+  if (typeof params === 'string') {
+    params = JSON.parse(params);
+    typeParams = 'object';
+  }
+
+  if (typeof params != 'object') {
+    return {
+      path: '',
+      select: ''
+    };
+  }
+
+  if (typeParams === 'array') {
+
+    var lengthParams = params.length;
+    var objectPopulate = {
+      path: '',
+      select: ''
+    };
+
+    for (var index = 0; index < params.length; index++) {
+      if (typeof params[index] == 'string') {
+        params[index] = JSON.parse(params[index]);
+      }
+      objectPopulate.path += params[index].path; 
+      objectPopulate.select += params[index].select;
+      if (index < lengthParams - 1) {
+        objectPopulate.path += ' '; 
+        objectPopulate.select += ' ';
+      }
+    }
+
+    return objectPopulate;
+  }
+
+  if (Object.keys(params).length === 0) {
+    return {
+      path: '',
+      select: ''
+    };
+  }
+
+  return params;
+};
+
+PrestamoSchema.methods.processSort = function (params) {
+  
+  if (!params || typeof params == 'undefined') {
+    return {
+      modified: -1
+    };
   }
 
   if (typeof params == 'string') {
@@ -125,11 +220,23 @@ PrestamoSchema.methods.processPopulate = function (params) {
   }
 
   if (typeof params != 'object') {
-    return { path: '', field: '' };
+    return {
+      modified: -1
+    };
   }
 
-  if ( Object.keys(params).length == 0) {
-    return { path: '', field: '' };
+  if (Object.keys(params).length === 0) {
+    return {
+      modified: -1
+    };
+  }
+
+  for (const property in params) {
+    if (params[property] == 'desc') {
+      params[property] = -1
+    } else {
+      params[property] = 1
+    }
   }
 
   return params;
@@ -140,9 +247,9 @@ PrestamoSchema.statics.seed = seed;
 mongoose.model('Prestamo', PrestamoSchema);
 
 /**
-* Seeds the User collection with document (Prestamo)
-* and provided options.
-*/
+ * Seeds the User collection with document (Prestamo)
+ * and provided options.
+ */
 function seed(doc, options) {
   var Prestamo = mongoose.model('Prestamo');
 
@@ -168,7 +275,9 @@ function seed(doc, options) {
 
         User
           .findOne({
-            roles: { $in: ['admin'] }
+            roles: {
+              $in: ['admin']
+            }
           })
           .exec(function (err, admin) {
             if (err) {

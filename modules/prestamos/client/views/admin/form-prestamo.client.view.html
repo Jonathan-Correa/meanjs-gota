@@ -1,60 +1,153 @@
 <section>
-  <div class="page-header">
-    <h1>{{vm.prestamo._id ? 'Edit Prestamo' : 'New Prestamo'}}</h1>
-  </div>
-  <div class="pull-right">
-    <a ng-show="vm.prestamo._id" class="btn btn-primary" ng-click="vm.remove()">
-      <i class="fa fa-trash"></i>
-    </a>
-  </div>
-  <div class="col-md-12">
-    <form name="vm.form.prestamoForm" class="form-horizontal" ng-submit="vm.save(vm.form.prestamoForm.$valid)" novalidate>
-      <fieldset>
-
-        <div class="form-group" show-errors>
-              <label class="control-label" for="debtor">Deudor</label>
-              <select name="debtor" ng-model="vm.prestamo.debtor" id="debtor" class="form-control" placeholder="Deudor" required autofocus>
-                <option ng-repeat='item in vm.debtors'>{{item.displayName}}</option>
-              </select>
-              <div ng-messages="vm.form.prestamoForm.debtor.$error" role="alert">
-                <p class="help-block error-text" ng-message="required">Prestamo debtor is required.</p>
-              </div>
+  <div class="row">
+    <div class="col-sm-11">
+      <h1>
+        {{ vm.prestamo._id ? 'Edit Prestamo' : 'New Prestamo' }}
+      </h1>
+    </div>
+    <div class="col-sm-1">
+      <a
+        ng-show="vm.prestamo._id"
+        class="btn btn-primary"
+        ng-click="vm.remove()">
+        <i class="fas fa-trash-alt" style="color:white;">
+        </i>
+      </a>
+    </div>
+    <div class="col-sm-12">
+      <form
+        name="vm.form.prestamoForm"
+        class="form-horizontal"
+        ng-submit="vm.save(vm.form.prestamoForm.$valid)"
+        novalidate>
+        <fieldset>      
+        
+        <div class = "form-group" show-errors>
+          <label class = "control-label" for = "debtor">
+            Debtor
+          </label>
+          <select type = "text"
+                 class = "form-control"
+                 name = "debtor"
+                 id = "debtor",
+                 ng-init = "vm.prestamo.debtor"
+                 ng-model = "vm.prestamo.debtor"
+                 ng-options="item as item.displayName for item in vm.debtors track by item._id"
+                 required
+                 autofocus>
+            <option value=""> --- Seleccione un deudor --- </option>
+          </select>
+          <div ng-messages = "vm.form.prestamoForm.debtor.$error" role = "alert">
+            <p class = "help-block error-text" ng-message = "required">
+              Debtor is required
+            </p>
+          </div>
         </div>
 
-        <div class="form-group" show-errors>
-          <div class="row">
-            <div class="col-md-6">
-              <label class="control-label" for="amount">Cantidad</label>
-              <input name="amount" type="number" ng-model="vm.prestamo.amount" id="amount" class="form-control" placeholder="amount" required autofocus>
-              <div ng-messages="vm.form.prestamoForm.amount.$error" role="alert">
-                <p class="help-block error-text" ng-message="required">Prestamo amount is required.</p>
+        <div class="row">
+          <div class="col-md-6">
+            <div class = "form-group" show-errors>
+              <label class = "control-label" for = "amount">
+                Amount
+              </label>
+              <input type = "number"
+                     class = "form-control"
+                     name = "amount"
+                     id = "amount"
+                     ng-model = "vm.prestamo.amount"
+                     required
+                    >
+              <div ng-messages = "vm.form.prestamoForm.amount.$error" role = "alert">
+                <p class = "help-block error-text" ng-message = "required">
+                  Amount is required
+                </p>
               </div>
             </div>
-            <div class="col-md-6">
-              <label class="control-label" for="interest">Interés</label>
-              <input type="text" name="interest" id="interest" ng-bind="vm.prestamo.interest" class="form-control" ng-model="vm.prestamo.interest" placeholder="Interes">
+          </div>
+          <div class="col-md-6">
+            <div class = "form-group" show-errors>
+              <label class = "control-label" for = "amount">
+                Número de cuotas
+              </label>
+              <input type = "number"
+                     class = "form-control"
+                     name = "number_of_fees"
+                     id = "number_of_fees"
+                     ng-model = "vm.prestamo.number_of_fees"
+                     required 
+                    >
+              <div ng-messages = "vm.form.prestamoForm.amount.$error" role = "alert">
+                <p class = "help-block error-text" ng-message = "required">
+                  Número de cuotas es requerido
+                </p>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="form-group">
-          <div class="row">
-            <div class="col-md-6">
-              <label class="control-label" for="address">Dirección</label>
-              <input name="address" data-ng-model="vm.prestamo.address" id="address" class="form-control" placeholder="Dirección"></input>
-            </div>
-            <div class="col-md-6">
-              <label class="control-label" for="plan">Fecha actual</label>
-              <input type="date" name="plan" id="plan" class="form-control">
-            </div>
+        <div class = "form-group" show-errors>
+          <label class = "control-label" for = "plan_id">
+            Plan
+          </label>
+          <select type = "text"
+                 class = "form-control"
+                 name = "plan_id"
+                 id = "plan_id",
+                 ng-init = "vm.prestamo.plan_id"
+                 ng-model = "vm.prestamo.plan_id"
+                 ng-options="item as item.name for item in vm.plans track by item._id"
+                 required>
+            <option value=""> --- Seleccione un plan --- </option>
+          </select>
+          <div ng-messages = "vm.form.prestamoForm.plan_id.$error" role = "alert">
+            <p class = "help-block error-text" ng-message = "required">
+              El plan es requerido
+            </p>
           </div>
         </div>
 
-        <div class="form-group">
-          <button type="submit" class="btn btn-success">{{vm.prestamo._id ? 'Update' : 'Create'}}</button>
+        <div class = "form-group" show-errors>
+          <label class = "control-label" for = "date">
+            Fecha de inicio
+          </label>
+          <input type = "date"
+                 class = "form-control"
+                 name = "init_date"
+                 id = "init_date"
+                 ng-model = "vm.prestamo.init_date"
+                >
+          <div ng-messages = "vm.form.prestamoForm.init_date.$error" role = "alert">
+            <p class = "help-block error-text" ng-message = "required">
+              Fecha de inicio es requerida
+            </p>
+          </div>
         </div>
 
-      </fieldset>
-    </form>
+        <div class = "form-group" show-errors>
+          <label class = "control-label" for = "address">
+            Dirección
+          </label>
+          <input type = "text"
+                 class = "form-control"
+                 name = "address"
+                 id = "address"
+                 ng-model = "vm.prestamo.address"
+                 required
+                >
+          <div ng-messages = "vm.form.prestamoForm.address.$error" role = "alert">
+            <p class = "help-block error-text" ng-message = "required">
+              La Dirección es requerida
+            </p>
+          </div>
+        </div>
+
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary">
+              {{vm.prestamo._id ? 'Update' : 'Create'}}
+            </button>
+          </div>
+        </fieldset>
+      </form>
+    </div>
   </div>
 </section>

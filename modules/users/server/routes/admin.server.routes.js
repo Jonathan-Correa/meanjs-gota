@@ -14,6 +14,10 @@ module.exports = function (app) {
   app.route('/api/users')
     .get(adminPolicy.isAllowed, admin.list);
 
+  // Get all users with the role debtor
+  app.route('/api/users/getDebtors')
+    .get(adminPolicy.isAllowed, admin.getDebtors);
+
   // Single user routes
   app.route('/api/users/:userId')
     .get(adminPolicy.isAllowed, admin.read)

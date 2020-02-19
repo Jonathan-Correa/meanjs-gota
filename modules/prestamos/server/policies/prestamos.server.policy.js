@@ -18,9 +18,6 @@ exports.invokeRolesPolicies = function () {
       resources: '/api/prestamos',
       permissions: '*'
     }, {
-      resources: '/api/prestamos/getDebtors',
-      permissions: '*'
-    }, {
       resources: '/api/prestamos/:prestamoId',
       permissions: '*'
     }]

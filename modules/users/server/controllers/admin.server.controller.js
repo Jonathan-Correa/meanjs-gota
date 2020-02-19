@@ -119,12 +119,14 @@ exports.userByID = function (req, res, next, id) {
 };
 
 
-/* exports.getDebtors = function (req, res) {
+exports.getDebtors = async function (req, res) {
 
-  console.log(req.body);
+  User.find({roles: ['debtor'], isAssigned : 0}, function(err, users){
 
-  var debtors = User.find({roles: 'debtor'});
+    if(err || !users){
+      return res.status(400);
+    }
 
-  console.log(debtors);
-  res.send(debtors);
-}; */
+    return res.status(200).json(users);
+  })
+};

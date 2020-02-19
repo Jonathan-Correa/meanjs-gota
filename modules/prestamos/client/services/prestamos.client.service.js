@@ -9,26 +9,37 @@
   PrestamosService.$inject = ['$resource', '$log'];
 
   function PrestamosService($resource, $log) {
-    var Prestamos = $resource(
-      '/api/prestamos/:prestamoId',
-      {
-        prestamoId: '@_id'
-      }, {
-        update: {
-          method: 'PUT'
-        }
+    var Prestamos = $resource('/api/prestamos/:prestamoId', {
+      prestamoId: '@_id'
+    }, {
+      update: {
+        method: 'PUT'
       }
-    );
+    });
 
-    angular.extend(Prestamos, {
+    angular.extend(Prestamos.prototype, {
       createOrUpdate: function () {
         var prestamo = this;
         return createOrUpdate(prestamo);
       },
-      getDebtors: function(params){
-        var module = $resource('/api/prestamos/getDebtors');
+      removeItem: function (id, callback) {
+        var modules = $resource('/api/prestamos/' + id);
+        modules.remove(id, function (rst) {
+          callback(rst);
+        });
+      }
+    });
 
-        return module.query().$promise;
+    angular.extend(Prestamos, {
+      getDebtors : function (params){
+        var modules = $resource('/api/users/getDebtors');
+        return modules.query(params).$promise;
+      },
+      findAllPlans: function (params, callback) {
+        var modules = $resource('/api/plans', params);
+        modules.get({}, function (rst) {
+          callback(rst);
+        });
       }
     });
 

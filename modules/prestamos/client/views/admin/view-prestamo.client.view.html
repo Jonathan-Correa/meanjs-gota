@@ -1,0 +1,68 @@
+<section>
+  <div class="page-header">
+    <div class="row">
+      <div class="col-md-6">
+        <h1 ng-bind="vm.prestamo.debtor.displayName"></h1>
+      </div>
+      <div class="col-md-4">
+        <a class="btn btn-primary" ui-sref="prestamos.edit({prestamoId: vm.prestamo._id})">
+          <i class="fa fa-edit"></i>
+        </a>
+        <a class="btn btn-primary" ng-click="vm.remove(vm.prestamo._id)"">
+          <i class="far fa-trash-alt" style="color:white;"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8">
+      <div class="row">
+        <div class="col-md-3"><strong>Deudor</strong></div>
+        <div class="col-md-6" ng-bind="vm.prestamo.debtor.displayName"></div>
+      </div>
+      <hr/>
+      <div class="row">
+        <div class="col-md-3"><strong>Cantidad</strong></div>
+        <div class="col-md-6" ng-bind="vm.prestamo.amount"></div>
+      </div>
+      <hr/>
+      <div class="row">
+        <div class="col-md-3"><strong>Interés</strong></div>
+        <div class="col-md-6" ng-bind="vm.prestamo.interest"></div>
+      </div>
+      <hr/>
+      <div class="row">
+        <div class="col-md-3"><strong>Fecha limite</strong></div>
+        <div class="col-md-6" ng-bind="vm.prestamo.date"></div>
+      </div>
+      <div class="row">
+        <div class="col-md-3"><strong>Fecha limite modificado</strong></div>
+        <div class="col-md-6" ng-bind="vm.date"></div>
+      </div>
+      <hr/>
+      <div class="row">
+        <div class="col-md-3"><strong>Dirección</strong></div>
+        <div class="col-md-6" ng-bind="vm.prestamo.address"></div>
+      </div>
+      <hr/>
+      <div class="row">
+        <div class="col-md-3"><strong>Creado por:</strong></div>
+        <div class="col-md-6" ng-bind="vm.prestamo.createdBy.displayName"></div>
+      </div>
+      <hr/>
+    </div>
+  </div>
+</section>
+<small>
+    <em class="text-muted">
+      Created on
+      <span ng-bind="vm.prestamo.created | date:'mediumDate'"></span>
+      by
+      <span ng-if="vm.prestamo.createdBy" ng-bind="vm.prestamo.createdBy.displayName"></span>
+      <span ng-if="!vm.prestamo.createdBy">
+        Deleted User
+      </span>
+    </em>
+</small>
+

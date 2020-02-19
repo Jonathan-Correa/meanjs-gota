@@ -1,0 +1,52 @@
+<section>
+  <div class="page-header">
+    <div class="row">
+      <div class="col-sm-11">
+        <h1 ng-bind="vm.plan.username"></h1>
+      </div>
+      <div class="col-sm-1">
+        <a class="btn btn-primary" ui-sref="plans.list">
+          <i class="fas fa-undo-alt"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="row">
+        <div class="col-sm-9"><strong>Name</strong></div>
+        <div class="col-sm-3" ng-bind="vm.plan.name"></div>
+      </div>
+      <hr/>
+      <div class="row">
+        <div class="col-sm-9"><strong>Periodicity</strong></div>
+        <div class="col-sm-3" ng-bind="vm.plan.periodicity"></div>
+      </div>
+      <hr/>
+      <div class="row">
+        <div class="col-sm-9"><strong>Interest</strong></div>
+        <div class="col-sm-3" ng-bind="vm.plan.interest"></div>
+      </div>
+      <hr/>
+      <div class="row">
+        <div class="col-sm-9"><strong>User</strong></div>
+        <div class="col-sm-3" ng-bind="vm.plan.user.displayName"></div>
+      </div>
+      <hr/>
+      <div class="row">
+        <div class="col-sm-9"><strong>Created</strong></div>
+        <div class="col-sm-3" ng-bind="vm.plan.created"></div>
+      </div>
+      <hr/>
+      <div class="row">
+        <div class="col-sm-9"><strong>Modified By</strong></div>
+        <div class="col-sm-3" ng-bind="vm.plan.modifiedBy.displayName"></div>
+      </div>
+      <hr/>
+      <div class="row">
+        <div class="col-sm-9"><strong>Modified</strong></div>
+        <div class="col-sm-3" ng-bind="vm.plan.modified"></div>
+      </div>
+    </div>
+  </div>
+</section>

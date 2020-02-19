@@ -1,0 +1,91 @@
+<section>
+  <div class="row">
+    <div class="col-sm-11">
+      <h1>
+        {{vm.plan._id ? 'Edit Plan' : 'New Plan'}}
+      </h1>
+    </div>
+    <div class="col-sm-1">
+      <a
+        ng-show="vm.plan._id"
+        class="btn btn-primary"
+        ng-click="vm.remove()">
+        <i class="fas fa-trash-alt">
+        </i>
+      </a>
+    </div>
+    <div class="col-sm-12">
+      <form
+        name="vm.form.planForm"
+        class="form-horizontal"
+        ng-submit="vm.save(vm.form.planForm.$valid)"
+        novalidate>
+        <fieldset>
+          
+        <div class = "form-group" show-errors>
+          <label class = "control-label" for = "name">
+            Name
+          </label>
+          <input type = "text"
+                 class = "form-control"
+                 name = "name"
+                 id = "name"
+                 ng-model = "vm.plan.name"
+                 placeholder = "Name"
+                 required
+                 autofocus>
+          <div ng-messages = "vm.form.planForm.name.$error" role = "alert">
+            <p class = "help-block error-text" ng-message = "required">
+              name
+            </p>
+          </div>
+        </div>
+
+        <div class = "form-group" show-errors>
+          <label class = "control-label" for = "periodicity">
+            Periodicity
+          </label>
+          <input type = "text"
+                 class = "form-control"
+                 name = "periodicity"
+                 id = "periodicity"
+                 ng-model = "vm.plan.periodicity"
+                 placeholder = "Periodicity"
+                 required
+                 autofocus>
+          <div ng-messages = "vm.form.planForm.periodicity.$error" role = "alert">
+            <p class = "help-block error-text" ng-message = "required">
+              periodicity
+            </p>
+          </div>
+        </div>
+
+        <div class = "form-group" show-errors>
+          <label class = "control-label" for = "interest">
+            Interest
+          </label>
+          <input type = "text"
+                 class = "form-control"
+                 name = "interest"
+                 id = "interest"
+                 ng-model = "vm.plan.interest"
+                 placeholder = "Interest"
+                 required
+                 autofocus>
+          <div ng-messages = "vm.form.planForm.interest.$error" role = "alert">
+            <p class = "help-block error-text" ng-message = "required">
+              interest
+            </p>
+          </div>
+        </div>
+
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary">
+              {{vm.plan._id ? 'Update' : 'Create'}}
+            </button>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</section>

@@ -6,15 +6,26 @@
 var path = require('path'),
   mongoose = require('mongoose'),
   Prestamo = mongoose.model('Prestamo'),
-  errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
-  User = mongoose.model('User');
+  User = mongoose.model('User'),
+  Log = mongoose.model('Log'),
+  Plan = mongoose.model('Plan'),
+  moment = require('moment'),
+  errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 /**
  * Create an Prestamo
  */
-exports.create = function (req, res) {
+exports.create = async function (req, res) {
+
   var prestamo = new Prestamo(req.body);
-  prestamo.user = req.user;
+  prestamo.debtor = req.body.debtor._id;
+  prestamo.createdBy = req.user._id;
+
+  var plan = await Plan.findOne({_id: prestamo.plan_id});
+
+  if(!Plan) return res.json({message: 'The plan does not exists'});
+
+  prestamo.processValue(prestamo, plan);
 
   prestamo.save(function (err) {
     if (err) {
@@ -22,7 +33,35 @@ exports.create = function (req, res) {
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.json(prestamo);
+
+      // isAssigned field updated to 1
+      User.update({
+        _id: mongoose.Types.ObjectId(prestamo.debtor)
+      }, {
+        $set: {
+          isAssigned: 1
+        }
+      }, async function(err){
+        
+        if(err) {
+          return res.status(422).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        }
+
+        var debtor = await User.findOne({_id: prestamo.debtor});
+
+        var log = new Log({
+          path: '/api/prestamos',
+          method: 'POST',
+          user: req.user._id,
+          action: 'Creó un prestamo para el usuario ' + debtor.displayName
+        });
+
+        await log.save();
+
+        return res.json(prestamo);
+      });
     }
   });
 };
@@ -36,7 +75,7 @@ exports.read = function (req, res) {
 
   // Add a custom field to the Prestamo, for determining if the current User is the "owner".
   // NOTE: This field is NOT persisted to the database, since it doesn't exist in the Prestamo model.
-  prestamo.isCurrentUserOwner = !!(req.user && prestamo.user && prestamo.user._id.toString() === req.user._id.toString());
+  prestamo.isCurrentUserOwner = !!(req.user && prestamo.createdBy && prestamo.createdBy._id.toString() === req.user._id.toString());
 
   res.json(prestamo);
 };
@@ -44,20 +83,45 @@ exports.read = function (req, res) {
 /**
  * Update an Prestamo
  */
-exports.update = function (req, res) {
+exports.update = async function (req, res) {
   var prestamo = req.prestamo;
 
-  prestamo.amount = req.body.amount;
-  prestamo.debtor = req.body.debtor;
+  var old_prestamo = mongoose.Types.ObjectId(req.prestamo.debtor);
+  var new_prestamo = mongoose.Types.ObjectId(req.body.debtor._id);
 
-  prestamo.save(function (err) {
+  prestamo.debtor = req.body.debtor._id;
+  prestamo.amount = req.body.amount;
+  prestamo.interest = req.body.interest;
+  prestamo.date = req.body.date;
+  prestamo.address = req.body.address;
+
+  if(!old_prestamo.equals(new_prestamo)){
+
+    await User.update({
+        _id: old_prestamo
+      }, 
+      {
+        $set: {
+          isAssigned: 0
+        }
+      }
+    );
+    await User.update({
+      _id: new_prestamo
+    }, {
+      $set: {
+        isAssigned: 1
+      }
+    });
+  }
+
+  prestamo.save(async function (err) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
       });
-    } else {
-      res.json(prestamo);
     }
+    res.json(prestamo);
   });
 };
 
@@ -73,7 +137,16 @@ exports.delete = function (req, res) {
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.json(prestamo);
+
+      User.findByIdAndUpdate(mongoose.Types.ObjectId(prestamo.debtor), {isAssigned: 0}, function(err){
+        
+        if(err) {
+          return res.status(422).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        }
+        return res.json(prestamo);
+      });
     }
   });
 };
@@ -81,20 +154,21 @@ exports.delete = function (req, res) {
 /**
  * List of Prestamos
  */
-exports.list = async function (req, res) {
+exports.list = function (req, res) {
+  
+  var count = req.query.count || 100;
+  var page = req.query.page || 1;
+  var sort = req.query.sorting || { modified: 'desc' };
 
-  var count = req.query.pageSize || 100;
-  var page = req.query.pageNumber || 1;
-  var populate = req.query.populate || {
-    path: '',
-    field: ''
-  };
+  var populate = req.query.populate || [];
+
   var filter = req.query.filter || {};
 
   var processFilter = new Prestamo().processFilter(filter);
   var processPopulate = new Prestamo().processPopulate(populate);
+  var processSort = new Prestamo().processSort(sort);
 
-  if (req.user.roles.indexOf("admin") == -1) {
+  if (req.user.roles.indexOf('admin') === -1) {
     processFilter.user = req.user._id;
   }
 
@@ -105,20 +179,21 @@ exports.list = async function (req, res) {
         contains: processFilter
       }
     },
-    sort: req.query.sort || '-modified',
+    sort: processSort,
     start: (page - 1) * count,
     count: count
   };
 
-  Prestamo.find().populate(processPopulate.path, processPopulate.field).field(options).keyword(options).filter(options).order(options).page(options, function (err, prestamos) {
+  Prestamo.find().populate(processPopulate.path, processPopulate.select).field(options).keyword(options).filter(options).order(options).page(options, function (err, prestamos) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
+      console.log(prestamos);
       res.json(prestamos);
     }
-  }); 
+  });
 };
 
 /**
@@ -126,13 +201,23 @@ exports.list = async function (req, res) {
  */
 exports.prestamoByID = function (req, res, next, id) {
 
+  var populate = req.query.populate || {
+    path: '',
+    field: ''
+  };
+
+  var filter = req.query.filter || {};
+
+  var processFilter = new Prestamo().processFilter(filter);
+  var processPopulate = new Prestamo().processPopulate(populate);
+
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).send({
       message: 'Prestamo is invalid'
     });
   }
 
-  Prestamo.findById(id).populate('user', 'displayName').exec(function (err, prestamo) {
+  Prestamo.findById(id).populate(processPopulate.path, processPopulate.field).exec(function (err, prestamo) {
     if (err) {
       return next(err);
     } else if (!prestamo) {
@@ -143,24 +228,4 @@ exports.prestamoByID = function (req, res, next, id) {
     req.prestamo = prestamo;
     next();
   });
-};
-
-/**
- * Get all the user with the role debtor
- */
-exports.getDebtors = async function (req, res) {
-
-  var result = [];
-
-  await User.find({roles: ['debtor']});
-
-  res.json(result);
-
-  
-
-  if(error.length > 0){
-    res.json(error);
-  }
-
-  
-}
+}; 

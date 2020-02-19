@@ -1,6 +1,7 @@
 (function () {
   'use strict';
 
+  // Configuring The Prestamos Module
   angular
     .module('prestamos')
     .run(menuConfig);
@@ -12,14 +13,14 @@
       title: 'Prestamos',
       state: 'prestamos',
       type: 'dropdown',
-      roles: ['*']
+      roles: ['admin']
     });
 
     // Add the dropdown list item
     menuService.addSubMenuItem('topbar', 'prestamos', {
       title: 'List Prestamos',
       state: 'prestamos.list',
-      roles: ['*']
+      roles: ['admin']
     });
   }
 }());

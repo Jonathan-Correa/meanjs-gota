@@ -125,6 +125,11 @@ var UserSchema = new Schema({
   },
   resetPasswordExpires: {
     type: Date
+  },
+  isAssigned : {
+    type: Number,
+    required: true,
+    default: 0
   }
 });
 

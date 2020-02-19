@@ -14,7 +14,6 @@
     vm.authentication = Authentication;
     vm.isCollapsed = false;
     vm.menu = menuService.getMenu('topbar');
-    console.log(vm.menu);
 
     $scope.$on('$stateChangeSuccess', stateChangeSuccess);
 
