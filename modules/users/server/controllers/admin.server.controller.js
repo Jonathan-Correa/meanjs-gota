@@ -118,7 +118,6 @@ exports.userByID = function (req, res, next, id) {
   });
 };
 
-
 exports.getDebtors = async function (req, res) {
 
   User.find({roles: ['debtor'], isAssigned : 0}, function(err, users){

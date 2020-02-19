@@ -20,6 +20,10 @@ exports.invokeRolesPolicies = function () {
     }, {
       resources: '/api/users',
       permissions: '*'
+    },
+    {
+      resources: '/api/users/getDebtors',
+      permissions: '*'
     }, {
       resources: '/api/users/:userId',
       permissions: '*'

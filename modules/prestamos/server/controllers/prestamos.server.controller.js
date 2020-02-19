@@ -228,4 +228,4 @@ exports.prestamoByID = function (req, res, next, id) {
     req.prestamo = prestamo;
     next();
   });
-}; 
+};

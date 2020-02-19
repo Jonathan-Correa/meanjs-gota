@@ -24,7 +24,7 @@ module.exports = function (app) {
     .put(adminPolicy.isAllowed, admin.update)
     .delete(adminPolicy.isAllowed, admin.delete);
 
-  //Create user
+  // Create user
   app.route('/api/users/create')
     .post(admin.create);
 
