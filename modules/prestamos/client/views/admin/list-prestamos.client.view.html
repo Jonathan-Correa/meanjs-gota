@@ -15,15 +15,16 @@
   </div>
   <table ng-table="vm.tableParams" class="table table-condensed table-bordered table-striped">
     <colgroup>
-      <col width="11%"/>
-      <col width="11%"/>
-      <col width="11%"/>
-      <col width="11%"/>
-      <col width="11%"/>
-      <col width="11%"/>
-      <col width="11%"/>
-      <col width="11%"/>
-      <col width="11%"/>
+      <col width="10%"/>
+      <col width="10%"/>
+      <col width="10%"/>
+      <col width="10%"/>
+      <col width="10%"/>
+      <col width="10%"/>
+      <col width="10%"/>
+      <col width="10%"/>
+      <col width="10%"/>
+      <col width="10%"/>
     </colgroup>
     <tr ng-repeat="row in $data">
       <td data-title="'Creado por'" filter="{ 'createdBy': 'select' }" filter-data="vm.listCreatedBy">
@@ -38,8 +39,11 @@
       <td data-title="'Plan'" filter="{ plan_id: 'text' }">
         {{row.plan_id.name}}
       </td>
-      <td data-title="'Fecha'" filter="{ init_date: 'text' }">
+      <td data-title="'Fecha de inicio'" filter="{ init_date: 'text' }">
         {{row.init_date}}
+      </td>
+      <td data-title="'Fecha de fin'" filter="{ final_date: 'text' }">
+        {{row.final_date}}
       </td>
       <td data-title="'Dirección'" filter="{ address: 'text' }">
         {{row.address}}
@@ -63,68 +67,4 @@
       </td>
     </tr>
   </table>
-  <!--
-  <table
-    ng-table-dynamic="vm.tableParams with vm.cols"
-    class="table table-bordered table-condensed table-hover editable-table"
-    ng-form="vm.tableForm"
-    disable-filter="vm.isAdding"
-    demo-tracked-table="vm.tableTracker">
-    <colgroup>
-      <col width="58%" />
-      <col width="15%" />
-      <col width="15%" />
-      <col width="12%" />
-    </colgroup>
-    <tr
-      ng-repeat="row in $data"
-      ng-form="rowForm"
-      demo-tracked-table-row="row">
-      <td
-        ng-repeat="col in $columns"
-        ng-class="rowForm[col.field].$dirty ? 'bg-warning' : ''"
-        ng-form="{{col.field}}"
-        vm-tracked-table-cell>
-        <span
-          ng-if="col.dataType !== 'command' && !vm.isEditing"
-          class="editable-text">{{row[col.field]}}
-        </span>
-        <div
-          ng-if="col.dataType !== 'command' && vm.isEditing" 
-          class="controls"
-          ng-class="rowForm[col.field].$invalid && rowForm[col.field].$dirty ? 'has-error' : ''"
-          ng-switch="col.dataType">
-          <input
-            ng-switch-default type="text"
-            name="{{col.field}}" ng-model="row[col.field]"
-            class="editable-input form-control input-sm"
-            required />
-          <input
-            ng-switch-when="number"
-            type="number" name="{{col.field}}"
-            ng-model="row[col.field]"
-            class="editable-input form-control input-sm"
-            required />
-        </div>
-        <button
-          ng-if="col.dataType === 'command'"
-          class="btn btn-default btn-sm"
-          ui-sref="prestamos.view({ prestamoId: row._id })">
-          <span class="fas fa-eye"></span>
-        </button>
-        <button
-          ng-if="col.dataType === 'command'"
-          class="btn btn-default btn-sm"
-          ui-sref="prestamos.edit({prestamoId: row._id})">
-          <span class="fas fa-pencil-alt"></span>
-        </button>
-        <button
-          ng-if="col.dataType === 'command'"
-          class="btn btn-default btn-sm"
-          ng-click="vm.remove(row._id)">
-          <span class="fas fa-trash-alt"></span>
-        </button>
-      </td>
-    </tr>
-  </table>
- --></section>
+</section>

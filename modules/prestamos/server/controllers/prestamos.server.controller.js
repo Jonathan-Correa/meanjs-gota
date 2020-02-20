@@ -60,6 +60,8 @@ exports.create = async function (req, res) {
 
         await log.save();
 
+        await sendEmail();
+
         return res.json(prestamo);
       });
     }
@@ -121,6 +123,14 @@ exports.update = async function (req, res) {
         message: errorHandler.getErrorMessage(err)
       });
     }
+
+    await new Log({
+      path: '/api/prestamos/' + prestamo._id,
+      method: 'PUT',
+      user: req.user._id,
+      action: 'Actualizó el prestamo ' + prestamo._id
+    }).save();
+
     res.json(prestamo);
   });
 };
@@ -138,13 +148,21 @@ exports.delete = function (req, res) {
       });
     } else {
 
-      User.findByIdAndUpdate(mongoose.Types.ObjectId(prestamo.debtor), {isAssigned: 0}, function(err){
+      User.findByIdAndUpdate(mongoose.Types.ObjectId(prestamo.debtor), {isAssigned: 0}, async function(err){
         
         if(err) {
           return res.status(422).send({
             message: errorHandler.getErrorMessage(err)
           });
         }
+
+        await new Log({
+          path: '/api/prestamos/' + prestamo._id,
+          method: 'DELETE',
+          user: req.user._id,
+          action: 'Eliminó el prestamo con id: ' + prestamo._id + " del usuario " + prestamo.debtor
+        }).save();
+
         return res.json(prestamo);
       });
     }
@@ -229,3 +247,29 @@ exports.prestamoByID = function (req, res, next, id) {
     next();
   });
 };
+
+function sendEmail(){
+
+  var elasticemail = require('elasticemail');
+  var client = elasticemail.createClient({
+    username: 'flyacab1312@gmail.com',
+    apiKey: 'F9F4CEEF11F8B88A12BCFF55B4462D5A76C545F2B8CFB6E781F9612A5EE785C531CA831A92DADC97C4972A3CE1921BCB'
+  });
+ 
+  var msg = {
+    from: 'flyacab1312@gmail.com',
+    from_name: 'Jonathan Correa',
+    to: 'flyacab1312@gmail.com',
+    subject: 'Hello',
+    body_text: 'Hello World!'
+  };
+ 
+  client.mailer.send(msg, function(err, result) {
+    if (err) {
+      return console.error(err);
+    }
+   
+    console.log(result);
+  });
+
+}

@@ -34,7 +34,7 @@ var PrestamoSchema = new Schema({
   },
   init_date: {
     type: Date,
-    default: Date.now,
+    default: Date().now,
     required: 'Please fill in init date'
   },
   final_date: {

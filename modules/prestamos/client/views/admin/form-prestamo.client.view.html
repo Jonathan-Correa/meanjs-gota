@@ -107,7 +107,7 @@
         </div>
 
         <div class = "form-group" show-errors>
-          <label class = "control-label" for = "date">
+          <label class = "control-label" for = "init_date">
             Fecha de inicio
           </label>
           <input type = "date"
@@ -119,6 +119,23 @@
           <div ng-messages = "vm.form.prestamoForm.init_date.$error" role = "alert">
             <p class = "help-block error-text" ng-message = "required">
               Fecha de inicio es requerida
+            </p>
+          </div>
+        </div>
+
+        <div class = "form-group" show-errors>
+          <label class = "control-label" for = "final_date">
+            Fecha de fin
+          </label>
+          <input type = "date"
+                 class = "form-control"
+                 name = "final_date"
+                 id = "final_date"
+                 ng-model = "vm.prestamo.final_date"
+                >
+          <div ng-messages = "vm.form.prestamoForm.final_date.$error" role = "alert">
+            <p class = "help-block error-text" ng-message = "required">
+              Fecha de fin es requerida
             </p>
           </div>
         </div>
