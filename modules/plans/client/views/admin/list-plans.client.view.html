@@ -18,22 +18,22 @@
   </div>
   <table ng-table="vm.tableParams" class="table table-condensed table-bordered table-striped">
     <colgroup>
-      <col width="30%"/>
-      <col width="29%"/>
-      <col width="29%"/>
-      <col width="12%"/>
+      <col width="25%"/>
+      <col width="25%"/>
+      <col width="25%"/>
+      <col width="25%"/>
     </colgroup>
     <tr ng-repeat="row in $data">
-      <td data-title="'Name'" filter="{ name: 'text' }">
+      <td data-title="'Nombre del plan'" filter="{ name: 'text' }">
         {{row.name}}
       </td>
-      <td data-title="'Periodicity'" filter="{ periodicity: 'text' }">
+      <td data-title="'Periodicidad'" filter="{ periodicity: 'text' }">
         {{row.periodicity}}
       </td>
-      <td data-title="'Interest'" filter="{ interest: 'text' }">
+      <td data-title="'Interés'" filter="{ interest: 'text' }">
         {{row.interest}}
       </td>
-      <td>
+      <td data-title="'Acciones'">
         <button class="btn btn-default btn-sm" ui-sref="plans.view({ planId: row._id })">
           <span class="fas fa-eye"></span>
         </button>
