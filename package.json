@@ -82,7 +82,7 @@
     "lusca": "^1.5.2",
     "method-override": "^2.3.10",
     "moment": "^2.24.0",
-    "mongoose": "^4.13.19",
+    "mongoose": "^5.8.11",
     "mongoose-middleware": "^1.0.0",
     "morgan": "^1.9.1",
     "multer": "^1.3.1",
