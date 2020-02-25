@@ -30,6 +30,11 @@
         "dist/css/bootstrap.min.css",
         "dist/js/bootstrap.min.js"
       ]
+    },
+    "font-awesome": {
+      "main": [
+        "css/all.min.css"
+      ]
     }
   },
   "devDependencies": {}

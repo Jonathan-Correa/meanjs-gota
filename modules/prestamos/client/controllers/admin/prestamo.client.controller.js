@@ -25,33 +25,30 @@
       }
     }
 
+    vm.debtors = [];
+
     PrestamosService.getDebtors()
-      .then(res => {
-        vm.debtors = res;
+      .then(function(res) {
+        for (var i = 0; i < res.length; i++) {
+          vm.debtors.push(res[i]);
+        }
       })
-      .catch(err => console.error(err));
+      .catch(function(err){
+        console.error(err); 
+      });
 
     // Save Prestamo
     function save(isValid) {
-
-      console.log("Entrando en save");
-      console.log("Entrando en save");
 
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'vm.form.prestamoForm');
         return false;
       }
 
-      console.log('is valid');
-      console.log('is valid');
-
       // Create a new prestamo, or update the current instance
-      prestamo.createOrUpdate()
+      vm.prestamo.createOrUpdate()
         .then(successCallback)
         .catch(errorCallback);
-
-      console.log('create or update');
-      console.log('create or update');
 
       function successCallback(res) {
         $state.go('admin.prestamos.list'); // should we send the User to the list or the updated Prestamo's view?

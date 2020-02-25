@@ -71,10 +71,20 @@
   function getPrestamo($stateParams, PrestamosService) {
     return PrestamosService.get({
       prestamoId: $stateParams.prestamoId,
-      populate: {
-        path: 'createdBy debtor',
-        field: 'displayName displayName'
-      }
+      populate: [
+        {
+          path: 'createdBy',
+          select: 'displayName'
+        },
+        {
+          path: 'debtor',
+          select: 'displayName'
+        },
+        {
+          path: 'plan_id',
+          select: 'name'
+        }
+      ]
     }).$promise;
   }
 

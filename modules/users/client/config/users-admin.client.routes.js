@@ -35,6 +35,9 @@
         controllerAs: 'vm',
         data: {
           pageTitle: 'Crear usuario'
+        },
+        resolve: {
+          userResolve: newUser
         }
       })
       .state('admin.user-edit', {
@@ -56,6 +59,12 @@
       return AdminService.get({
         userId: $stateParams.userId
       }).$promise;
+    }
+
+    newUser.$inject = ['UsersService'];
+
+    function newUser(UsersService) {
+      return new UsersService();
     }
   }
 }());

@@ -18,10 +18,11 @@
   </div>
   <table ng-table="vm.tableParams" class="table table-condensed table-bordered table-striped">
     <colgroup>
-      <col width="25%"/>
-      <col width="25%"/>
-      <col width="25%"/>
-      <col width="25%"/>
+      <col width="20%"/>
+      <col width="20%"/>
+      <col width="20%"/>
+      <col width="20%"/>
+      <col width="20%"/>
     </colgroup>
     <tr ng-repeat="row in $data">
       <td data-title="'Nombre del plan'" filter="{ name: 'text' }">
@@ -32,6 +33,9 @@
       </td>
       <td data-title="'Interés'" filter="{ interest: 'text' }">
         {{row.interest}}
+      </td>
+      <td data-title="'Número de cuotas'" filter="{ number_of_fees: 'text' }">
+        {{row.number_of_fees}}
       </td>
       <td data-title="'Acciones'">
         <button class="btn btn-default btn-sm" ui-sref="plans.view({ planId: row._id })">

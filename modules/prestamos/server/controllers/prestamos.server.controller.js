@@ -19,7 +19,10 @@ exports.create = async function (req, res) {
 
   var prestamo = new Prestamo(req.body);
   prestamo.debtor = req.body.debtor._id;
+  prestamo.plan_id = req.body.plan_id._id;
   prestamo.createdBy = req.user._id;
+  prestamo.init_date = Date(req.body.init_date);
+  prestamo.final_date = Date(req.body.final_date);
 
   var plan = await Plan.findOne({_id: prestamo.plan_id});
 
@@ -60,7 +63,7 @@ exports.create = async function (req, res) {
 
         await log.save();
 
-        await sendEmail();
+        //await sendEmail();
 
         return res.json(prestamo);
       });
@@ -186,8 +189,12 @@ exports.list = function (req, res) {
   var processPopulate = new Prestamo().processPopulate(populate);
   var processSort = new Prestamo().processSort(sort);
 
-  if (req.user.roles.indexOf('admin') === -1) {
+/*  if (req.user.roles.indexOf('admin') === -1) {
     processFilter.user = req.user._id;
+  }*/
+
+  if (req.user.roles.includes('debtor')) {
+    processFilter.debtor = req.user._id;
   }
 
   var options = {
@@ -208,7 +215,6 @@ exports.list = function (req, res) {
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      console.log(prestamos);
       res.json(prestamos);
     }
   });

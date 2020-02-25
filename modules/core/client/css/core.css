@@ -47,15 +47,16 @@ a:hover .header-profile-image {
 }
 
 #brand{
-  color: #9D9D9D;
+  color: white;
 }
 
-#brand:hover{
-  color:white;
-}
 
 .custom-list li:hover{
   color: white;
+}
+
+#dropdown-menu{
+  color: #1c1b1b;
 }
 
 #dropdownMenu:hover{
@@ -67,5 +68,5 @@ a:hover .header-profile-image {
 }
 
 .custom-color {
-  color: #9D9D9D;
+  color: white;
 }

@@ -28,7 +28,8 @@ exports.create = function (req, res) {
     provider: req.body.provider,
     email: req.body.email,
     password: req.body.password,
-    roles: req.body.roles
+    roles: req.body.roles,
+    address: req.body.address
   });
 
   user.save(function (err) {

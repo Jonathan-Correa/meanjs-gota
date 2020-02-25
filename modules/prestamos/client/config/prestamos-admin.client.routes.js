@@ -20,7 +20,7 @@
         controller: 'PrestamosAdminListController',
         controllerAs: 'vm',
         data: {
-          roles: ['admin']
+          roles: ['admin', 'debtor']
         }
       })
       .state('admin.prestamos.create', {

@@ -25,10 +25,6 @@ var PrestamoSchema = new Schema({
     type: Schema.ObjectId,
     ref: 'Plan'
   },
-  number_of_fees: {
-    type: Number,
-    required: 'Please fill in number of fees'
-  },
   total_to_pay: {
     type: Number
   },
@@ -44,10 +40,6 @@ var PrestamoSchema = new Schema({
   value_per_fee: {
     type: Number,
     required: true
-  },
-  address: {
-    type: String,
-    required: 'Please fill in address'
   },
   createdBy: {
     type: Schema.ObjectId,
@@ -76,7 +68,7 @@ PrestamoSchema.methods.processValue = function (prestamo, plan){
 
 
 
-  prestamo.value_per_fee = prestamo.total_to_pay / prestamo.number_of_fees;
+  prestamo.value_per_fee = prestamo.total_to_pay / plan.number_of_fees;
 }
 
 

@@ -130,6 +130,10 @@ var UserSchema = new Schema({
     type: Number,
     required: true,
     default: 0
+  },
+  address: {
+    type: String,
+    default: ''
   }
 });
 

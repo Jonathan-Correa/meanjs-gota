@@ -6,7 +6,7 @@
           Prestamos
         </h1>
       </div>
-      <div class="col-sm-1">
+      <div class="col-sm-1" ng-show="vm.showButton">
         <a class="btn btn-primary" data-ui-sref="prestamos.create">
           <i class="fas fa-plus"></i>
         </a>
@@ -45,8 +45,8 @@
       <td data-title="'Fecha de fin'" filter="{ final_date: 'text' }">
         {{row.final_date}}
       </td>
-      <td data-title="'Dirección'" filter="{ address: 'text' }">
-        {{row.address}}
+      <td data-title="'Dirección'" filter="{ debtor: 'text' }">
+        {{row.debtor.address}}
       </td>
       <td data-title="'Total a pagar'" filter="{ total_to_pay: 'number' }">
         {{row.total_to_pay}}

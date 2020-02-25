@@ -24,6 +24,10 @@ var PlanSchema = new Schema({
   interest: {
     type: Number
   },
+  number_of_fees: {
+    type: Number,
+    required: 'Please fill in number of fees'
+  },
   user: {
     type: Schema.ObjectId,
     ref: 'User'

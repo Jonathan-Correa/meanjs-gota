@@ -1,170 +1,259 @@
 <section>
-  <div class="row">
-    <div class="col-sm-11">
-      <h1>
-        {{ vm.prestamo._id ? 'Edit Prestamo' : 'New Prestamo' }}
-      </h1>
-    </div>
-    <div class="col-sm-1">
-      <a
-        ng-show="vm.prestamo._id"
-        class="btn btn-primary"
-        ng-click="vm.remove()">
-        <i class="fas fa-trash-alt" style="color:white;">
-        </i>
-      </a>
-    </div>
-    <div class="col-sm-12">
-      <form
-        name="vm.form.prestamoForm"
-        class="form-horizontal"
-        ng-submit="vm.save(vm.form.prestamoForm.$valid)"
-        novalidate>
-        <fieldset>      
-        
-        <div class = "form-group" show-errors>
-          <label class = "control-label" for = "debtor">
-            Debtor
-          </label>
-          <select type = "text"
-                 class = "form-control"
-                 name = "debtor"
-                 id = "debtor",
-                 ng-init = "vm.prestamo.debtor"
-                 ng-model = "vm.prestamo.debtor"
-                 ng-options="item as item.displayName for item in vm.debtors track by item._id"
-                 required
-                 autofocus>
-            <option value=""> --- Seleccione un deudor --- </option>
-          </select>
-          <div ng-messages = "vm.form.prestamoForm.debtor.$error" role = "alert">
-            <p class = "help-block error-text" ng-message = "required">
-              Debtor is required
-            </p>
+    <a
+      ng-show="vm.prestamo._id"
+      class="btn btn-primary"
+      ng-click="vm.remove()">
+      <i class="fas fa-trash-alt" style="color:white;">
+      </i>
+    </a>
+    <div class="row">
+      <div class="col-md-6 mx-auto">
+        <div class="card">
+          <div class="card-header text-center">
+            <h2>
+              {{ vm.prestamo._id ? 'Edit Prestamo' : 'New Prestamo' }}
+            </h2>
+          </div>
+          <div class="card-body">
+            <form
+              name="vm.form.prestamoForm"
+              class="form-horizontal"
+              ng-submit="vm.save(vm.form.prestamoForm.$valid)"
+              novalidate>
+
+              <fieldset>
+
+                  <div class = "form-group" show-errors>
+                    <label class = "control-label" for = "debtor">
+                      Debtor
+                    </label>
+                    <select type = "text"
+                           class = "form-control"
+                           name = "debtor"
+                           id = "debtor"
+                           ng-init = "vm.prestamo.debtor"
+                           ng-model = "vm.prestamo.debtor"
+                           ng-options="item as item.displayName for item in vm.debtors track by item._id"
+                           required
+                           autofocus>
+                      <option value=""> --- Seleccione un deudor --- </option>
+                    </select>
+                    <div ng-messages = "vm.form.prestamoForm.debtor.$error" role = "alert">
+                      <p class = "help-block error-text" ng-message = "required">
+                        Debtor is required
+                      </p>
+                    </div>
+                  </div>               
+              
+                  <div class = "form-group" show-errors>
+                    <label class = "control-label" for = "amount">
+                      Amount
+                    </label>
+                    <input type = "number"
+                           class = "form-control"
+                           name = "amount"
+                           id = "amount"
+                           ng-model = "vm.prestamo.amount"
+                           required
+                          >
+                    <div ng-messages = "vm.form.prestamoForm.amount.$error" role = "alert">
+                      <p class = "help-block error-text" ng-message = "required">
+                        Amount is required
+                      </p>
+                    </div>
+                  </div>            
+              
+                  <div class = "form-group" show-errors>
+                    <label class = "control-label" for = "plan_id">
+                      Plan
+                    </label>
+                    <select type = "text"
+                           class = "form-control"
+                           name = "plan_id"
+                           id = "plan_id"
+                           ng-init = "vm.prestamo.plan_id"
+                           ng-model = "vm.prestamo.plan_id"
+                           ng-options="item as item.name for item in vm.plans"
+                           required>
+                      <option value=""> --- Seleccione un plan --- </option>
+                    </select>
+                    <div ng-messages = "vm.form.prestamoForm.plan_id.$error" role = "alert">
+                      <p class = "help-block error-text" ng-message = "required">
+                        El plan es requerido
+                      </p>
+                    </div>
+                  </div>                
+
+                  <div class = "form-group" show-errors>
+                    <label class = "control-label" for = "init_date">
+                      Fecha de inicio
+                    </label>
+                    <input type = "date"
+                           class = "form-control"
+                           name = "init_date"
+                           id = "init_date"
+                           ng-model = "vm.prestamo.init_date"
+                          >
+                    <div ng-messages = "vm.form.prestamoForm.init_date.$error" role = "alert">
+                      <p class = "help-block error-text" ng-message = "required">
+                        Fecha de inicio es requerida
+                      </p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <button type="submit" class="btn btn-success">
+                          {{vm.prestamo._id ? 'Update' : 'Create'}}
+                        </button>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <input id="btn-abrir-popup" ng-click="vm.preView(vm.prestamo)" ui-sref="#preview" value="Preview" type="button" class="btn btn-primary">
+                      </div>
+                    </div>
+                  </div>
+              </fieldset>
+            </form>
+            
           </div>
         </div>
-
-        <div class="row">
-          <div class="col-md-6">
-            <div class = "form-group" show-errors>
-              <label class = "control-label" for = "amount">
-                Amount
-              </label>
-              <input type = "number"
-                     class = "form-control"
-                     name = "amount"
-                     id = "amount"
-                     ng-model = "vm.prestamo.amount"
-                     required
-                    >
-              <div ng-messages = "vm.form.prestamoForm.amount.$error" role = "alert">
-                <p class = "help-block error-text" ng-message = "required">
-                  Amount is required
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class = "form-group" show-errors>
-              <label class = "control-label" for = "amount">
-                Número de cuotas
-              </label>
-              <input type = "number"
-                     class = "form-control"
-                     name = "number_of_fees"
-                     id = "number_of_fees"
-                     ng-model = "vm.prestamo.number_of_fees"
-                     required 
-                    >
-              <div ng-messages = "vm.form.prestamoForm.amount.$error" role = "alert">
-                <p class = "help-block error-text" ng-message = "required">
-                  Número de cuotas es requerido
-                </p>
-              </div>
-
-            </div>
-          </div>
-        </div>
-        <div class = "form-group" show-errors>
-          <label class = "control-label" for = "plan_id">
-            Plan
-          </label>
-          <select type = "text"
-                 class = "form-control"
-                 name = "plan_id"
-                 id = "plan_id",
-                 ng-init = "vm.prestamo.plan_id"
-                 ng-model = "vm.prestamo.plan_id"
-                 ng-options="item as item.name for item in vm.plans track by item._id"
-                 required>
-            <option value=""> --- Seleccione un plan --- </option>
-          </select>
-          <div ng-messages = "vm.form.prestamoForm.plan_id.$error" role = "alert">
-            <p class = "help-block error-text" ng-message = "required">
-              El plan es requerido
-            </p>
-          </div>
-        </div>
-
-        <div class = "form-group" show-errors>
-          <label class = "control-label" for = "init_date">
-            Fecha de inicio
-          </label>
-          <input type = "date"
-                 class = "form-control"
-                 name = "init_date"
-                 id = "init_date"
-                 ng-model = "vm.prestamo.init_date"
-                >
-          <div ng-messages = "vm.form.prestamoForm.init_date.$error" role = "alert">
-            <p class = "help-block error-text" ng-message = "required">
-              Fecha de inicio es requerida
-            </p>
-          </div>
-        </div>
-
-        <div class = "form-group" show-errors>
-          <label class = "control-label" for = "final_date">
-            Fecha de fin
-          </label>
-          <input type = "date"
-                 class = "form-control"
-                 name = "final_date"
-                 id = "final_date"
-                 ng-model = "vm.prestamo.final_date"
-                >
-          <div ng-messages = "vm.form.prestamoForm.final_date.$error" role = "alert">
-            <p class = "help-block error-text" ng-message = "required">
-              Fecha de fin es requerida
-            </p>
-          </div>
-        </div>
-
-        <div class = "form-group" show-errors>
-          <label class = "control-label" for = "address">
-            Dirección
-          </label>
-          <input type = "text"
-                 class = "form-control"
-                 name = "address"
-                 id = "address"
-                 ng-model = "vm.prestamo.address"
-                 required
-                >
-          <div ng-messages = "vm.form.prestamoForm.address.$error" role = "alert">
-            <p class = "help-block error-text" ng-message = "required">
-              La Dirección es requerida
-            </p>
-          </div>
-        </div>
-
-          <div class="form-group">
-            <button type="submit" class="btn btn-primary">
-              {{vm.prestamo._id ? 'Update' : 'Create'}}
-            </button>
-          </div>
-        </fieldset>
-      </form>
-    </div>
-  </div>
+      </div>
 </section>
+<div class="overlay" id="overlay">
+  <div class="popup" id="popup">
+    <a href="#" id="btn-cerrar-popup" class="btn-cerrar-popup"><i class="fas fa-times"></i></a>
+    <div class="card">
+      <div class="card-header">
+        <h3>PRESTAMO PREVIEW</h3>
+      </div>
+      <div class="card-body">
+        <p><strong>Total a pagar: </strong>{{vm.preview.total_to_pay}}</p>
+        <p><strong>Valor a pagar por cuota: </strong>{{vm.preview.value_per_fee}}</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- POP UP JAVASCRIPT-->
+<script>
+  var btnAbrirPopup = document.getElementById('btn-abrir-popup'),
+	  overlay = document.getElementById('overlay'),
+	  popup = document.getElementById('popup'),
+	  btnCerrarPopup = document.getElementById('btn-cerrar-popup');
+
+    btnAbrirPopup.addEventListener('click', function(){
+    	overlay.classList.add('active');
+    	popup.classList.add('active');
+    });
+
+    btnCerrarPopup.addEventListener('click', function(e){
+    	e.preventDefault();
+    	overlay.classList.remove('active');
+    	popup.classList.remove('active');
+    });
+</script>
+<!-- POP UP JAVASCRIPT -->
+
+
+<!-- POP UP CSS-->
+<style>
+  .overlay {
+	background: rgba(0,0,0,.3);
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	visibility: hidden;
+}
+
+.overlay.active {
+	visibility: visible;
+}
+
+.popup {
+	background: #F8F8F8;
+	box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
+	border-radius: 3px;
+	font-family: 'Montserrat', sans-serif;
+	padding: 20px;
+	text-align: center;
+	width: 600px;
+	
+	transition: .3s ease all;
+	transform: scale(0.7);
+	opacity: 0;
+}
+
+.popup .btn-cerrar-popup {
+	font-size: 16px;
+	line-height: 16px;
+	display: block;
+	text-align: right;
+	transition: .3s ease all;
+	color: #BBBBBB;
+}
+
+.popup .btn-cerrar-popup:hover {
+	color: #000;
+}
+
+.popup h3 {
+	font-size: 36px;
+	font-weight: 600;
+	margin-bottom: 10px;
+	opacity: 0;
+}
+
+.popup h4 {
+	font-size: 26px;
+	font-weight: 300;
+	margin-bottom: 40px;
+	opacity: 0;
+}
+
+/* ------------------------- */
+/* ANIMACIONES */
+/* ------------------------- */
+.popup.active {	transform: scale(1); opacity: 1; }
+.popup.active h3 { animation: entradaTitulo .8s ease .5s forwards; }
+.popup.active h4 { animation: entradaSubtitulo .8s ease .5s forwards; }
+.popup.active .contenedor-inputs { animation: entradaInputs 1s linear 1s forwards; }
+
+@keyframes entradaTitulo {
+	from {
+		opacity: 0;
+		transform: translateY(-25px);
+	}
+
+	to {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+
+@keyframes entradaSubtitulo {
+	from {
+		opacity: 0;
+		transform: translateY(25px);
+	}
+
+	to {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+
+@keyframes entradaInputs {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+</style>
+
+<!-- POP UP CSS-->

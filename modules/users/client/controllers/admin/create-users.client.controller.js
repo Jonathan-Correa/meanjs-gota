@@ -4,11 +4,13 @@
     .module('users.admin')
     .controller('CreateUserController', CreateUserController);
 
-  CreateUserController.$inject = ['$scope', '$state', 'UsersService'];
+  CreateUserController.$inject = ['$scope', '$state', 'userResolve', 'UsersService'];
 
-  function CreateUserController($scope, $state, UsersService) {
+  function CreateUserController($scope, $state, user, UsersService) {
     var vm = this;
+    vm.user = user;
     vm.create = create;
+    vm.state = $state;
 
     function create(isValid) {
 
@@ -17,9 +19,10 @@
 
         return false;
       }
-      var user = vm.user;
 
-      UsersService.createUser(user, function () {
+
+
+      UsersService.createUser(vm.user, function () {
         $state.go('admin.users');
         Notification.success({ message: '<i class="fa fa-check"></i> User saved successfully!' });
       }, function (errorResponse) {

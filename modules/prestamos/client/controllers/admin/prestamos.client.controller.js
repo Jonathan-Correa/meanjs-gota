@@ -15,10 +15,9 @@
     vm.authentication = Authentication;
     vm.form = {};
     vm.remove = remove;
+    vm.preView = preView;
     vm.save = save;
-
-    vm.date = moment(vm.prestamo.date).format('DD-MM-YYYY HH:mm:ss Z');
-
+    vm.preview = {};
 
     // Get all the users with the role debtor
     vm.debtors = [];
@@ -34,7 +33,7 @@
     };
 
     PrestamosService.getDebtors(filterDebtors)
-      .then(res => {
+      .then(function(res){
         for (var i = 0; i < res.length; i++) {
           vm.debtors.push({
             _id: res[i]._id,
@@ -42,11 +41,13 @@
           });
         }
       })
-      .catch(err => console.error(err));
+      .catch(function(err){
+        console.error(err)
+      });
 
     // Get all the plans
     var optionsPlans = {
-      field: ['name'],
+      field: ['name', 'interest', 'number_of_fees'],
       sort: {
         modified: 'desc'
       },
@@ -64,7 +65,22 @@
         vm.plans = rst.results;
       }
     });
+
+
+    // PREVIEW
     
+
+    function preView(prestamo){
+      console.log(prestamo.amount);
+      console.log(prestamo.plan_id.interest);
+      vm.preview.agregated_value = (prestamo.amount * prestamo.plan_id.interest) / 100;
+      vm.preview.total_to_pay = prestamo.amount + vm.preview.agregated_value;
+      vm.preview.value_per_fee = vm.preview.total_to_pay / prestamo.plan_id.number_of_fees;
+
+      console.log(vm.preview);
+      console.log(vm.preview);
+      console.log(vm.preview);
+    }
 
     // Remove existing Prestamo
     function remove() {
@@ -85,8 +101,12 @@
         return false;
       }
 
+      vm.prestamo.init_date = moment(vm.prestamo.init_date).format();
+      vm.prestamo.final_date = moment(vm.prestamo.final_date).format();
+
+
       // Create a new prestamo, or update the current instance
-      prestamo.createOrUpdate()
+      vm.prestamo.createOrUpdate()
         .then(successCallback)
         .catch(errorCallback);
 

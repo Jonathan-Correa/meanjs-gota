@@ -5,9 +5,9 @@
     .module('prestamos')
     .controller('PrestamosListController', PrestamosListController);
 
-  PrestamosListController.$inject = ['$state', '$window', 'prestamosResolve', 'PrestamosService', 'NgTableParams', 'Notification'];
+  PrestamosListController.$inject = ['$state', '$window', 'prestamosResolve', 'PrestamosService', 'NgTableParams', 'Authentication', 'Notification'];
 
-  function PrestamosListController($state, $window, prestamos, PrestamosService, NgTableParams, Notification) {
+  function PrestamosListController($state, $window, prestamos, PrestamosService, NgTableParams, Authentication, Notification) {
     // debugger;
     var vm = this;
     vm.prestamos = prestamos;
@@ -17,6 +17,9 @@
     
     vm.listCreatedBy = [];
     vm.listDebtors = [];
+
+    vm.showButton = Authentication.user.roles.includes('admin') ? true : false; 
+
     
     vm.cols = [
       {
@@ -95,6 +98,10 @@
         {
           path: 'plan_id',
           select: 'name'
+        },
+        {
+          path: 'debtor',
+          select: 'address'
         }
       ]
     };

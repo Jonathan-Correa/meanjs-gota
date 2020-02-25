@@ -22,12 +22,9 @@ exports.invokeRolesPolicies = function () {
       permissions: '*'
     }]
   }, {
-    roles: ['user'],
+    roles: ['debtor'],
     allows: [{
       resources: '/api/prestamos',
-      permissions: ['get']
-    }, {
-      resources: '/api/prestamos/:prestamoId',
       permissions: ['get']
     }]
   }, {

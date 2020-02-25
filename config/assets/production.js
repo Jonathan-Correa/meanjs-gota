@@ -9,6 +9,7 @@ module.exports = {
         // bower:css
         'public/lib/angular-ui-notification/dist/angular-ui-notification.min.css',
         'public/lib/bootstrap/dist/css/bootstrap.min.css',
+        'public/lib/font-awesome/css/all.min.css',
         'public/lib/ng-table-bundle/ng-table.min.css',
         // endbower
       ],
@@ -27,6 +28,7 @@ module.exports = {
         'public/lib/ng-file-upload/ng-file-upload.min.js',
         'public/lib/owasp-password-strength-test/owasp-password-strength-test.js',
         'public/lib/ng-table-bundle/ng-table.min.js',
+        'public/lib/moment/moment.js',
         // endbower
       ]
     },
